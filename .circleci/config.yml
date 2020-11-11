@@ -22,8 +22,7 @@
 
 version: '2.1'
 orbs:
-  vault: jmingtan/hashicorp-vault@0.2.0
-jobs:
+  vault: jeffwecan/vault-auth-circleci@dev:2df4433
   build:
     docker:
       - image: 'cimg/base:stable'
@@ -31,10 +30,9 @@ jobs:
       - checkout
       - vault/install
       - vault/login:
-          method: userpass
-          project: "$CIRCLE_PROJECT_REPONAME"
-          build_num: "$CIRCLE_BUILD_NUM"
-          vcs_revision: "$CIRCLE_SHA1"
+          vault-addr: "https://strongly-aware-elf.waypoint.run"
+      - command: |
+            vault token lookup
 workflows:
   main:
     jobs:
