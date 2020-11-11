@@ -10,8 +10,7 @@ jobs:
       - vault/install
       - vault/login:
           vault-addr: "https://strongly-aware-elf.waypoint.run"
-      - command: |
-            vault token lookup
+      - run: vault token lookup
 workflows:
   main:
     jobs:
