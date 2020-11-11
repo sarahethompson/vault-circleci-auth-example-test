@@ -10,7 +10,7 @@ jobs:
           name: Attempt to authenticate
           command: |
             set -e
-
+            apk add --no-cache jq
             export VAULT_ADDR='https://strongly-aware-elf.waypoint.run'
             LOGIN_RESP="$(vault write -format=json auth/circleci/login \
                 project="$CIRCLE_PROJECT_REPONAME" \
