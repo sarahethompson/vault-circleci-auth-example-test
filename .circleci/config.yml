@@ -11,7 +11,7 @@ jobs:
           command: |
             set -e
 
-            export VAULT_ADDR='https://hackavault.waypoint.run'
+            export VAULT_ADDR='https://strongly-aware-elf.waypoint.run'
             vault write auth/circleci/login \
                 project="$CIRCLE_PROJECT_REPONAME" \
                 build_num="$CIRCLE_BUILD_NUM" \
