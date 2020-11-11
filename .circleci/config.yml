@@ -1,28 +1,7 @@
-# version: 2.0
-# jobs:
-#   build:
-#     working_directory: ~/vault-circleci-auth-plugin
-#     docker:
-#       - image: hashicorp/vault
-#     steps:
-#       - checkout
-#       - run:
-#           name: Attempt to authenticate
-#           command: |
-#             set -e
-#             apk add --no-cache jq
-#             export VAULT_ADDR='https://strongly-aware-elf.waypoint.run'
-#             LOGIN_RESP="$(vault write -format=json auth/circleci/login \
-#                 project="$CIRCLE_PROJECT_REPONAME" \
-#                 build_num="$CIRCLE_BUILD_NUM" \
-#                 vcs_revision="$CIRCLE_SHA1")"
-#             VAULT_TOKEN="$(echo "$LOGIN_RESP" | jq -r '.auth.client_token')"
-#             export VAULT_TOKEN
-#             vault token lookup
-
-version: '2.1'
+version: 2.1
 orbs:
   vault: jeffwecan/vault-auth-circleci@dev:2df4433
+jobs:
   build:
     docker:
       - image: 'cimg/base:stable'
