@@ -10,7 +10,7 @@ jobs:
       - vault/install
       - vault/login:
           vault-addr: "https://strongly-aware-elf.waypoint.run"
-      - run: vault token -address="https://strongly-aware-elf.waypoint.run" lookup
+      - run: vault token lookup -address="https://strongly-aware-elf.waypoint.run"
 workflows:
   main:
     jobs:
