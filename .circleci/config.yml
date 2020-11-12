@@ -10,6 +10,7 @@ jobs:
           name: Generate nonce
           command: |
             set -e
+            sudo apt-get install jq
             export VAULT_ADDR='https://hackavault-test.waypoint.run'
             vault write -format=json auth/circleci/nonce build_num="$CIRCLE_BUILD_NUM" \
               | jq '.data | {nonce: .nonce}'
