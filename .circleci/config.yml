@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  jq: circleci/jq@2.2.0
 jobs:
   build:
     working_directory: ~/vault-circleci-auth-plugin
@@ -9,9 +7,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: install curl
-          command: apt-get install curl
-      - jq/install
+          name: install jq
+          command: apk add jq
       - run:
           name: Generate nonce
           command: |
