@@ -8,6 +8,9 @@ jobs:
       - image: hashicorp/vault
     steps:
       - checkout
+      - run:
+          name: install curl
+          command: apt-get install curl
       - jq/install
       - run:
           name: Generate nonce
