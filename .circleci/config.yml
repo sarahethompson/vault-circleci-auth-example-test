@@ -8,6 +8,7 @@ jobs:
       - image: hashicorp/vault
     steps:
       - checkout
+      - jq/install
       - run:
           name: Generate nonce
           command: |
