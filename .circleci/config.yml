@@ -1,27 +1,28 @@
 version: 2.1
+
+orbs:
+  vault: jeffwecan/vault-auth-circleci@dev:04cf15c
+
+references:
+  urls:
+    vault: &VAULT_ADDR https://hackavault-test.waypoint.run
+
 jobs:
-  build:
-    working_directory: ~/vault-circleci-auth-plugin
+  lookup-token:
     docker:
-      - image: hashicorp/vault
+      - image: 'cimg/base:stable'
     steps:
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: '~'
       - checkout
-      - run:
-          name: install jq
-          command: apk add jq
-      - run:
-          name: Generate nonce
-          command: |
-            set -e
-            export VAULT_ADDR='https://hackavault-test.waypoint.run'
-            vault write -format=json auth/circleci/nonce build_num="$CIRCLE_BUILD_NUM" \
-              | jq '.data | {nonce: .nonce}'
-      - run:
-          name: Attempt to authenticate
-          command: |
-            set -e
-            export VAULT_ADDR='https://hackavault-test.waypoint.run'
-            vault write auth/circleci/login \
-                project="$CIRCLE_PROJECT_REPONAME" \
-                build_num="$CIRCLE_BUILD_NUM" \
-                vcs_revision="$CIRCLE_SHA1"
+      - vault/install
+      - run: vault token lookup -address='https://hackavault-test.waypoint.run'
+workflows:
+  main:
+    jobs:
+      - vault/login:
+          vault-addr: *VAULT_ADDR
+      - lookup-token:
+          requires:
+            - vault/login
